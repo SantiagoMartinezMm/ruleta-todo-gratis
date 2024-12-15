@@ -5,11 +5,13 @@ export class Wheel {
         this.prizes = [
             { 
                 name: 'TODO GRATIS',
-                description: 'Descuento del 100% hasta $15.000',
+                description: 'Bonificamos el 100% de tu compra hasta $30.000',
                 color: '#FFD700',
                 textColor: '#841468',
                 probability: 0.05,
-                shortText: 'TODO\nGRATIS'
+                shortText: '100%\nGRATIS',
+                isSpecial: true,
+                glowColor: 'rgba(255, 215, 0, 0.5)'
             },
             { 
                 name: '20% de Descuento',
@@ -138,6 +140,20 @@ export class Wheel {
         for (let i = 0; i < this.totalSlices; i++) {
             const startAngle = (i * 2 * Math.PI / this.totalSlices) + this.rotationAngle;
             const endAngle = ((i + 1) * 2 * Math.PI / this.totalSlices) + this.rotationAngle;
+            const prize = this.prizes[i];
+
+            // Efecto de brillo para TODO GRATIS
+            if (prize.isSpecial) {
+                this.ctx.save();
+                this.ctx.globalAlpha = 0.3 + (Math.sin(this.glowIntensity * Math.PI) * 0.2);
+                this.ctx.beginPath();
+                this.ctx.moveTo(centerX, centerY);
+                this.ctx.arc(centerX, centerY, radius + 5, startAngle, endAngle);
+                this.ctx.closePath();
+                this.ctx.fillStyle = prize.glowColor;
+                this.ctx.fill();
+                this.ctx.restore();
+            }
 
             // Efecto 3D del segmento
             this.ctx.beginPath();
@@ -150,9 +166,9 @@ export class Wheel {
                 centerX, centerY, 0,
                 centerX, centerY, radius
             );
-            const baseColor = this.prizes[i].color;
-            const lighterColor = this.adjustColor(baseColor, 30);
-            const darkerColor = this.adjustColor(baseColor, -30);
+            const baseColor = prize.color;
+            const lighterColor = this.adjustColor(baseColor, prize.isSpecial ? 50 : 30);
+            const darkerColor = this.adjustColor(baseColor, prize.isSpecial ? -20 : -30);
             
             segmentGradient.addColorStop(0, lighterColor);
             segmentGradient.addColorStop(0.5, baseColor);
@@ -162,38 +178,26 @@ export class Wheel {
             this.ctx.fill();
             
             // Borde del segmento
-            this.ctx.strokeStyle = '#FFFFFF';
-            this.ctx.lineWidth = 2;
+            this.ctx.strokeStyle = prize.isSpecial ? '#FFA500' : '#FFFFFF';
+            this.ctx.lineWidth = prize.isSpecial ? 3 : 2;
             this.ctx.stroke();
-
-            // Decoraciones
-            const midAngle = startAngle + (endAngle - startAngle) / 2;
-            const decorationRadius = radius * 0.85;
-            const decorX = centerX + decorationRadius * Math.cos(midAngle);
-            const decorY = centerY + decorationRadius * Math.sin(midAngle);
-            
-            // Pequeños círculos decorativos
-            this.ctx.beginPath();
-            this.ctx.arc(decorX, decorY, 4, 0, 2 * Math.PI);
-            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            this.ctx.fill();
 
             // Texto mejorado
             this.ctx.save();
             this.ctx.translate(centerX, centerY);
             this.ctx.rotate(startAngle + (Math.PI / this.totalSlices));
             this.ctx.textAlign = 'right';
-            this.ctx.fillStyle = this.prizes[i].textColor;
-            this.ctx.font = '700 20px "greycliff-cf"';
+            this.ctx.fillStyle = prize.textColor;
+            this.ctx.font = `700 ${prize.isSpecial ? '22px' : '20px'} "greycliff-cf"`;
             this.ctx.letterSpacing = '-0.01em';
             
             // Sombra del texto
             this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-            this.ctx.shadowBlur = 4;
+            this.ctx.shadowBlur = prize.isSpecial ? 6 : 4;
             this.ctx.shadowOffsetX = 1;
             this.ctx.shadowOffsetY = 1;
             
-            const lines = this.prizes[i].shortText.split('\n');
+            const lines = prize.shortText.split('\n');
             lines.forEach((line, index) => {
                 const yOffset = index * 24 - ((lines.length - 1) * 12);
                 this.ctx.fillText(line, radius - 35, yOffset);
@@ -231,51 +235,6 @@ export class Wheel {
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         this.ctx.shadowBlur = 4;
         this.ctx.fillText('¡GIRAR!', centerX, centerY);
-
-        // Indicador mejorado
-        this.drawIndicator(centerX, 40);
-    }
-
-    drawIndicator(x, y) {
-        this.ctx.save();
-        
-        // Sombra del indicador
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-        this.ctx.shadowBlur = 5;
-        this.ctx.shadowOffsetY = 2;
-        
-        // Triángulo principal con gradiente
-        const triangleGradient = this.ctx.createLinearGradient(x, y, x, y - 25);
-        triangleGradient.addColorStop(0, '#9B1C7D');
-        triangleGradient.addColorStop(1, '#841468');
-        
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, y);
-        this.ctx.lineTo(x - 15, y - 25);
-        this.ctx.lineTo(x + 15, y - 25);
-        this.ctx.closePath();
-        this.ctx.fillStyle = triangleGradient;
-        this.ctx.fill();
-        
-        // Borde brillante
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-        this.ctx.lineWidth = 2;
-        this.ctx.stroke();
-        
-        // Círculo decorativo con gradiente
-        const circleGradient = this.ctx.createRadialGradient(
-            x, y - 25, 2,
-            x, y - 25, 8
-        );
-        circleGradient.addColorStop(0, '#FFFFFF');
-        circleGradient.addColorStop(1, '#F0F0F0');
-        
-        this.ctx.beginPath();
-        this.ctx.arc(x, y - 25, 8, 0, 2 * Math.PI);
-        this.ctx.fillStyle = circleGradient;
-        this.ctx.fill();
-        
-        this.ctx.restore();
     }
 
     startGlowAnimation() {
@@ -325,35 +284,6 @@ export class Wheel {
         }
 
         this.ctx.globalAlpha = 1;
-    }
-
-    drawArrow(x, y) {
-        this.ctx.save();
-        
-        // Sombra para la flecha
-        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-        this.ctx.shadowBlur = 8;
-        this.ctx.shadowOffsetY = 2;
-
-        // Dibujar flecha con gradiente
-        const gradient = this.ctx.createLinearGradient(x, y - 25, x, y + 5);
-        gradient.addColorStop(0, '#F4DE00');
-        gradient.addColorStop(1, '#E6C700');
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(x, y);
-        this.ctx.lineTo(x - 20, y - 30);
-        this.ctx.lineTo(x + 20, y - 30);
-        this.ctx.closePath();
-        
-        this.ctx.fillStyle = gradient;
-        this.ctx.fill();
-        
-        this.ctx.strokeStyle = '#841468';
-        this.ctx.lineWidth = 3;
-        this.ctx.stroke();
-
-        this.ctx.restore();
     }
 
     adjustColor(color, amount) {
