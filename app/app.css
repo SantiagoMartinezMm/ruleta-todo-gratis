@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wheel-container {
+    width: 300;
+    height: 300;
+    background-color: transparent;
+    border-radius: 150;
+    margin: 20;
+}
+
+.wheel-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.spin-button {
+    width: 80;
+    height: 80;
+    border-radius: 40;
+    background-color: #ff4081;
+    color: white;
+    font-size: 18;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.result-container {
+    background-color: #ffffff;
+    border-radius: 10;
+    margin: 20;
+    padding: 20;
+    elevation: 4;
+}

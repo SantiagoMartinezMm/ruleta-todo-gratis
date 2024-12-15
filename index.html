@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINTEMAS - Todo Gratis</title>
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="stylesheet" href="https://use.typekit.net/lbq1omq.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Definiciones base de tipografía */
+        body {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Eliminar las clases antiguas de Muli */
+        .font-light { font-weight: 300; }
+        .font-regular { font-weight: 400; }
+        .font-bold { font-weight: 700; }
+        .font-heavy { font-weight: 900; }
+
+        .subtitle {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 3em;
+            color: #FFFFFF;
+            margin: 10px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 2em;
+            color: #F4DE00;
+            letter-spacing: -0.01em;
+        }
+
+        .prize-item h3 {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.3em;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .prize-item p {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 1em;
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .result-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2.4em;
+            color: #841468;
+            letter-spacing: -0.02em;
+            margin-bottom: 5px;
+        }
+
+        .prize-description {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 1.8em;
+            color: #841468;
+            letter-spacing: -0.01em;
+            margin: 0 0 20px 0;
+        }
+
+        .prize-code {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2.2em;
+            letter-spacing: 0.05em;
+        }
+
+        .share-button {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            letter-spacing: -0.01em;
+        }
+
+        .close-button {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            letter-spacing: -0.01em;
+        }
+
+        .terms-title {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.5em;
+            color: #F4DE00;
+            letter-spacing: -0.01em;
+        }
+
+        .terms-list li {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 1em;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .footer-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.4em;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: 25px;
+            letter-spacing: -0.01em;
+        }
+
+        /* Actualizar estilos del popup */
+        .result-modal {
+            font-family: "greycliff-cf", sans-serif;
+        }
+
+        .instructions {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 400;
+            font-size: 1em;
+        }
+
+        .expiry-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 0.9em;
+        }
+
+        /* Asegurarnos de que los pesos de la fuente estén correctamente definidos */
+        .font-regular { font-family: "muli", sans-serif; font-weight: 400; }
+        .font-bold { font-family: "muli", sans-serif; font-weight: 700; }
+        .font-black { font-family: "muli", sans-serif; font-weight: 900; }
+        
+        /* Estilos adicionales para el nuevo popup */
+        .qr-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #841468, #F4DE00);
+        }
+
+        #qrCode {
+            margin: 15px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #qrCode canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .prize-code {
+            font-size: 2em;
+            font-weight: 800;
+            color: #841468;
+            margin: 15px 0;
+            letter-spacing: 0.1em;
+            text-shadow: none;
+        }
+
+        .expiry-text {
+            color: #666;
+            font-size: 1em;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .expiry-text svg {
+            width: 16px;
+            height: 16px;
+            color: #841468;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-button {
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+        }
+
+        .share-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+        }
+
+        .result-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            background: white;
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90vw;
+            width: 400px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .result-modal.visible {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .result-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2.2em;
+            color: #841468;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .prize-description {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.8em;
+            color: #841468;
+            letter-spacing: -0.01em;
+            margin: 5px 0 20px 0;
+        }
+
+        .prize-code-container {
+            background: #841468;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(132, 20, 104, 0.2);
+        }
+
+        .prize-code {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2em;
+            color: #F4DE00;
+            letter-spacing: 0.1em;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .expiry-text {
+            color: #666;
+            font-size: 0.9em;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .expiry-text svg {
+            width: 16px;
+            height: 16px;
+            color: #841468;
+        }
+
+        .share-button {
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .share-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .instructions {
+            color: #666;
+            font-size: 0.95em;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .close-button {
+            background: #F4DE00;
+            color: #841468;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(244, 222, 0, 0.2);
+        }
+
+        .close-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 222, 0, 0.3);
+        }
+
+        .sun-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 15px;
+        }
+
+        .wheel-container {
+            position: relative;
+            margin: 20px auto;
+            width: 400px;
+            height: 400px;
+        }
+
+        .spin-progress {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: linear-gradient(90deg, #F4DE00, #841468);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="game-section">
+            <div class="header">
+                <img src="/assets/images/logo.png" alt="PINTEMAS" class="logo">
+                <h2 class="subtitle">TODO GRATIS</h2>
+            </div>
+            
+            <div class="wheel-container">
+                <div class="wheel-border">
+                    <canvas id="wheel" width="400" height="400"></canvas>
+                </div>
+                <button id="spinButton" class="spin-button">¡Gira y Gana!</button>
+            </div>
+
+            <p class="footer-text">¡Participá y ganá premios increíbles!</p>
+        </div>
+
+        <div class="info-section">
+            <div class="section-header">
+                <img src="/assets/icons/gift.svg" alt="Regalo" class="section-icon">
+                <h2 class="section-title">Premios Disponibles</h2>
+            </div>
+            
+            <div class="prizes-list">
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/discount.svg" alt="Descuento" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>10% de Descuento</h3>
+                        <p>En toda la tienda</p>
+                    </div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/paint-kit.svg" alt="Kit de Pintura" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>Kit de Pintura Gratis</h3>
+                        <p>Con compras mayores a $50.000</p>
+                    </div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/target.svg" alt="Descuento" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>15% de Descuento</h3>
+                        <p>En productos seleccionados</p>
+                    </div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/gift-box.svg" alt="Regalo" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>Regalo Sorpresa</h3>
+                        <p>En tu próxima compra</p>
+                    </div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/premium.svg" alt="Premium" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>20% de Descuento</h3>
+                        <p>En pinturas premium</p>
+                    </div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">
+                        <img src="/assets/icons/coupon.svg" alt="Cupón" />
+                    </div>
+                    <div class="prize-details">
+                        <h3>Bono Extra</h3>
+                        <p>Cupón de $10.000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terms-container">
+                <div class="terms-header">
+                    <img src="/assets/icons/document.svg" alt="Documento" class="terms-icon">
+                    <h3 class="terms-title">Bases y Condiciones</h3>
+                </div>
+                <ul class="terms-list">
+                    <li>Promoción válida hasta agotar stock de premios</li>
+                    <li>Un giro por persona por día</li>
+                    <li>Los descuentos no son acumulables con otras promociones</li>
+                    <li>Los códigos tienen una validez de 30 días</li>
+                    <li>Premios sujetos a disponibilidad en sucursal</li>
+                    <li>Los premios no son transferibles ni canjeables por dinero</li>
+                    <li>PINTEMAS se reserva el derecho de modificar estas bases y condiciones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="result" class="result-modal">
+        <div class="modal-content">
+            <h2 class="result-text">¡Felicitaciones! 🎉</h2>
+            <p id="prizeDescription" class="prize-description"></p>
+            <div class="prize-code-container">
+                <p id="prizeCode" class="prize-code"></p>
+            </div>
+            <p class="expiry-text">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Válido por 24 horas
+            </p>
+            <button class="share-button" id="shareWhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                </svg>
+                Compartir en WhatsApp
+            </button>
+            <p class="instructions">Presentá este código en PINTEMAS para reclamar tu premio</p>
+            <button class="close-button">Entendido</button>
+        </div>
+    </div>
+
+    <div id="error" class="error-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="/assets/icons/warning.svg" alt="Advertencia" class="warning-icon">
+                <p id="errorText" class="error-text"></p>
+            </div>
+            <button class="close-button">Entendido</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Wheel } from './js/wheel.js';
+        import { KIOSK_CONFIG } from './js/kiosk-config.js';
+
+        const wheel = new Wheel('wheel');
+        const spinButton = document.getElementById('spinButton');
+        const result = document.getElementById('result');
+        const error = document.getElementById('error');
+        const resultText = document.getElementById('resultText');
+        const prizeDescription = document.getElementById('prizeDescription');
+        const prizeCode = document.getElementById('prizeCode');
+        const errorText = document.getElementById('errorText');
+        
+        // Cargar sonidos
+        const spinSound = new Audio('/sounds/spin.mp3');
+        const winSound = new Audio('/sounds/win.mp3');
+        const clickSound = new Audio('/sounds/click.mp3');
+        const errorSound = new Audio('/sounds/error.mp3');
+
+        let isSpinning = false;
+
+        // Función para generar el QR
+        function generateQR(prize) {
+            const qrData = {
+                code: prize.code,
+                name: prize.name,
+                description: prize.description,
+                expiry: prize.expiryTime,
+                timestamp: prize.timestamp
+            };
+            
+            const qrContainer = document.getElementById('qrCode');
+            qrContainer.innerHTML = '';
+            
+            QRCode.toCanvas(qrContainer, JSON.stringify(qrData), {
+                width: 180,
+                height: 180,
+                margin: 2,
+                color: {
+                    dark: '#841468',
+                    light: '#FFFFFF'
+                },
+                errorCorrectionLevel: 'H'
+            });
+        }
+
+        // Función para compartir en WhatsApp
+        function shareOnWhatsApp(prize) {
+            const expiryDate = new Date(prize.expiryTime).toLocaleString('es-AR', {
+                dateStyle: 'short',
+                timeStyle: 'short'
+            });
+
+            const text = encodeURIComponent(
+                `🎉 ¡Felicitaciones! Ganaste en PINTEMAS\n\n` +
+                `🎁 Tu premio es:\n` +
+                `${prize.name}\n` +
+                `${prize.description}\n\n` +
+                `📝 Tu código:\n` +
+                `${prize.code}\n\n` +
+                `⏰ Válido hasta:\n` +
+                `${expiryDate}\n\n` +
+                `📍 Presentá este código en cualquier sucursal de PINTEMAS para reclamar tu premio`
+            );
+            window.open(`https://wa.me/5493547637630?text=${text}`, '_blank');
+        }
+
+        // Función para mostrar el resultado
+        function showResult(prize) {
+            // Lanzar confeti inicial
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#841468', '#F4DE00', '#FFFFFF']
+            });
+
+            // Actualizar el contenido del modal
+            prizeDescription.textContent = `¡Ganaste ${prize.name}!`;
+            prizeCode.textContent = prize.code;
+            
+            // Mostrar modal con animación
+            result.style.display = 'block';
+            requestAnimationFrame(() => {
+                result.classList.add('visible');
+                
+                // Confeti adicional
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 30,
+                        spread: 100,
+                        origin: { y: 0.7 },
+                        angle: 60,
+                        colors: ['#841468', '#F4DE00', '#FFFFFF']
+                    });
+                    confetti({
+                        particleCount: 30,
+                        spread: 100,
+                        origin: { y: 0.7 },
+                        angle: 120,
+                        colors: ['#841468', '#F4DE00', '#FFFFFF']
+                    });
+                }, 200);
+            });
+
+            // Configurar botón de WhatsApp
+            document.getElementById('shareWhatsApp').onclick = () => shareOnWhatsApp(prize);
+        }
+
+        // Función para mostrar el error
+        function showError(message) {
+            errorText.textContent = message;
+            error.style.display = 'block';
+            error.offsetHeight; // Forzar reflow
+            error.classList.add('visible');
+            errorSound.play();
+            setTimeout(() => {
+                error.classList.remove('visible');
+                setTimeout(() => {
+                    error.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+
+        // Cerrar modales al hacer clic en los botones
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.result-modal, .error-modal');
+                modal.classList.remove('visible');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+        });
+
+        spinButton.addEventListener('click', async () => {
+            if (isSpinning) return;
+            
+            try {
+                clickSound.play();
+                spinSound.play();
+                isSpinning = true;
+                
+                // Girar la ruleta y obtener el premio
+                const prize = await wheel.spin();
+                
+                // Mostrar el resultado inmediatamente después del giro
+                winSound.play();
+                showResult(prize);
+                isSpinning = false;
+                
+            } catch (error) {
+                isSpinning = false;
+                showError(error.message);
+            }
+        });
+
+        // Inicialización
+        document.fonts.ready.then(() => {
+            wheel.draw();
+        });
+    </script>
+</body>
+</html>

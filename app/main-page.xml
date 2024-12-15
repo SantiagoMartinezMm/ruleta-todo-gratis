@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo">
+    <ActionBar title="PINTEMAS Prize Wheel" class="bg-blue-600 text-white" />
+    <GridLayout>
+        <prize-wheel></prize-wheel>
+    </GridLayout>
+</Page>
