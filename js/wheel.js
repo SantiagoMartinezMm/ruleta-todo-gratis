@@ -6,9 +6,9 @@ export class Wheel {
             { 
                 name: 'TODO GRATIS',
                 description: 'Descuento del 100% hasta $15.000',
-                color: '#FFD700', // Dorado
+                color: '#FFD700',
                 textColor: '#841468',
-                probability: 0.05, // Muy baja probabilidad por ser el premio mayor
+                probability: 0.05,
                 shortText: 'TODO\nGRATIS'
             },
             { 
@@ -62,7 +62,7 @@ export class Wheel {
             { 
                 name: '5% de Descuento',
                 description: 'En accesorios de pintura',
-                color: '#FF7F50', // Coral
+                color: '#FF7F50',
                 textColor: '#FFFFFF',
                 probability: 0.10,
                 shortText: '5%\nDESCUENTO'
@@ -166,6 +166,18 @@ export class Wheel {
             this.ctx.lineWidth = 2;
             this.ctx.stroke();
 
+            // Decoraciones
+            const midAngle = startAngle + (endAngle - startAngle) / 2;
+            const decorationRadius = radius * 0.85;
+            const decorX = centerX + decorationRadius * Math.cos(midAngle);
+            const decorY = centerY + decorationRadius * Math.sin(midAngle);
+            
+            // Pequeños círculos decorativos
+            this.ctx.beginPath();
+            this.ctx.arc(decorX, decorY, 4, 0, 2 * Math.PI);
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            this.ctx.fill();
+
             // Texto mejorado
             this.ctx.save();
             this.ctx.translate(centerX, centerY);
@@ -210,15 +222,60 @@ export class Wheel {
         this.ctx.lineWidth = 3;
         this.ctx.stroke();
 
-        // Texto "¡Gira y Gana!" con efecto
+        // Texto "¡GIRAR!" con efecto
         this.ctx.fillStyle = '#FFFFFF';
-        this.ctx.font = '900 22px "greycliff-cf"';
+        this.ctx.font = '900 24px "greycliff-cf"';
         this.ctx.letterSpacing = '-0.02em';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
         this.ctx.shadowBlur = 4;
-        this.ctx.fillText('¡Gira y Gana!', centerX, centerY);
+        this.ctx.fillText('¡GIRAR!', centerX, centerY);
+
+        // Indicador mejorado
+        this.drawIndicator(centerX, 40);
+    }
+
+    drawIndicator(x, y) {
+        this.ctx.save();
+        
+        // Sombra del indicador
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.shadowBlur = 5;
+        this.ctx.shadowOffsetY = 2;
+        
+        // Triángulo principal con gradiente
+        const triangleGradient = this.ctx.createLinearGradient(x, y, x, y - 25);
+        triangleGradient.addColorStop(0, '#9B1C7D');
+        triangleGradient.addColorStop(1, '#841468');
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(x - 15, y - 25);
+        this.ctx.lineTo(x + 15, y - 25);
+        this.ctx.closePath();
+        this.ctx.fillStyle = triangleGradient;
+        this.ctx.fill();
+        
+        // Borde brillante
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
+        
+        // Círculo decorativo con gradiente
+        const circleGradient = this.ctx.createRadialGradient(
+            x, y - 25, 2,
+            x, y - 25, 8
+        );
+        circleGradient.addColorStop(0, '#FFFFFF');
+        circleGradient.addColorStop(1, '#F0F0F0');
+        
+        this.ctx.beginPath();
+        this.ctx.arc(x, y - 25, 8, 0, 2 * Math.PI);
+        this.ctx.fillStyle = circleGradient;
+        this.ctx.fill();
+        
+        this.ctx.restore();
     }
 
     startGlowAnimation() {
@@ -239,6 +296,64 @@ export class Wheel {
         if (this.animationFrame) {
             cancelAnimationFrame(this.animationFrame);
         }
+    }
+
+    drawPattern(centerX, centerY, radius, startAngle, endAngle, color) {
+        const pattern = this.ctx.createLinearGradient(
+            centerX + Math.cos(startAngle) * radius * 0.5,
+            centerY + Math.sin(startAngle) * radius * 0.5,
+            centerX + Math.cos(endAngle) * radius * 0.5,
+            centerY + Math.sin(endAngle) * radius * 0.5
+        );
+        
+        pattern.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+        pattern.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
+        pattern.addColorStop(1, 'rgba(255, 255, 255, 0.1)');
+
+        this.ctx.fillStyle = pattern;
+        this.ctx.fill();
+
+        // Agregar líneas decorativas
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = 1;
+        this.ctx.globalAlpha = 0.2;
+
+        for (let r = radius * 0.2; r < radius; r += radius * 0.15) {
+            this.ctx.beginPath();
+            this.ctx.arc(centerX, centerY, r, startAngle, endAngle);
+            this.ctx.stroke();
+        }
+
+        this.ctx.globalAlpha = 1;
+    }
+
+    drawArrow(x, y) {
+        this.ctx.save();
+        
+        // Sombra para la flecha
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.shadowBlur = 8;
+        this.ctx.shadowOffsetY = 2;
+
+        // Dibujar flecha con gradiente
+        const gradient = this.ctx.createLinearGradient(x, y - 25, x, y + 5);
+        gradient.addColorStop(0, '#F4DE00');
+        gradient.addColorStop(1, '#E6C700');
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(x - 20, y - 30);
+        this.ctx.lineTo(x + 20, y - 30);
+        this.ctx.closePath();
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
+        
+        this.ctx.strokeStyle = '#841468';
+        this.ctx.lineWidth = 3;
+        this.ctx.stroke();
+
+        this.ctx.restore();
     }
 
     adjustColor(color, amount) {
@@ -399,25 +514,17 @@ export class Wheel {
             timeStyle: 'short'
         });
 
-        const emojis = {
-            celebration: String.fromCodePoint(0x1F389),
-            gift: String.fromCodePoint(0x1F381),
-            ticket: String.fromCodePoint(0x1F3AB),
-            clock: String.fromCodePoint(0x23F0),
-            pin: String.fromCodePoint(0x1F4CD)
-        };
-
-        const message = 
-            `${emojis.celebration} ¡Felicitaciones! Ganaste en PINTEMAS\n\n` +
-            `${emojis.gift} Tu premio es:\n` +
+        const text = encodeURIComponent(
+            `🎊 ¡Felicitaciones! Ganaste en PINTEMAS\n\n` +
+            `🎁 Tu premio es:\n` +
             `${prize.name}\n` +
             `${prize.description}\n\n` +
-            `${emojis.ticket} Tu código:\n` +
+            `🎫 Tu código:\n` +
             `${prize.code}\n\n` +
-            `${emojis.clock} Válido hasta:\n` +
+            `⏰ Válido hasta:\n` +
             `${expiryDate}\n\n` +
-            `${emojis.pin} Presentá este código en cualquier sucursal de PINTEMAS para reclamar tu premio`;
-
-        window.open(`https://wa.me/5493547637630?text=${encodeURIComponent(message)}`);
+            `📍 Presentá este código en cualquier sucursal de PINTEMAS para reclamar tu premio`
+        );
+        window.open(`https://wa.me/5493547637630?text=${text}`);
     }
 }

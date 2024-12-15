@@ -1,0 +1,219 @@
+:root {
+    --primary-color: #841468;
+    --secondary-color: #FFD700;
+    --text-color: #ffffff;
+    --background-color: #841468;
+    --border-radius: 16px;
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "greycliff-cf", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 2rem;
+}
+
+.game-section {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+}
+
+.prizes-section {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-text {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.subtitle {
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.wheel-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#wheel-canvas {
+    width: 100%;
+    height: auto;
+}
+
+.spin-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.spin-button:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+.premios-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.premios-title img {
+    width: 24px;
+    height: 24px;
+}
+
+.premio-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.premio-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.premio-title {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.premio-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.prize-display {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.prize-display.show {
+    display: block;
+}
+
+.prize-display h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.prize-code {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    letter-spacing: 2px;
+}
+
+.validity-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+}
+
+.share-button {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.close-button {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.bases-condiciones {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bases-title {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bases-text {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}

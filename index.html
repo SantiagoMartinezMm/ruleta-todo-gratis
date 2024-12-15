@@ -122,6 +122,93 @@
             letter-spacing: -0.01em;
         }
 
+        /* Actualización de estilos específicos */
+        .subtitle {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2.5em;
+            color: #FFFFFF;
+            margin: 10px 0;
+        }
+
+        .section-title {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.8em;
+            color: #F4DE00;
+        }
+
+        .prize-item h3 {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .prize-item p {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 0.9em;
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .result-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2.2em;
+            color: #841468;
+        }
+
+        .prize-description {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.4em;
+            color: #841468;
+        }
+
+        .prize-code {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 900;
+            font-size: 2em;
+            letter-spacing: 0.1em;
+        }
+
+        .share-button {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .close-button {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .terms-title {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.4em;
+            color: #F4DE00;
+        }
+
+        .terms-list li {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 300;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+
+        .footer-text {
+            font-family: "greycliff-cf", sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: 20px;
+        }
+
         /* Actualizar estilos del popup */
         .result-modal {
             font-family: "greycliff-cf", sans-serif;
@@ -224,7 +311,7 @@
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
         }
 
         .share-button:hover {
@@ -244,7 +331,7 @@
             transform: translate(-50%, -50%) scale(0.9);
             opacity: 0;
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 24px;
             text-align: center;
             display: none;
@@ -260,12 +347,15 @@
             opacity: 1;
         }
 
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .result-text {
-            font-family: "greycliff-cf", sans-serif;
-            font-weight: 900;
-            font-size: 2.2em;
             color: #841468;
-            letter-spacing: -0.02em;
+            font-size: 2em;
+            font-weight: 700;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -274,17 +364,15 @@
         }
 
         .prize-description {
-            font-family: "greycliff-cf", sans-serif;
-            font-weight: 700;
-            font-size: 1.8em;
             color: #841468;
-            letter-spacing: -0.01em;
-            margin: 5px 0 20px 0;
+            font-size: 1.4em;
+            margin: 15px 0 25px 0;
+            font-weight: 500;
         }
 
         .prize-code-container {
             background: #841468;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border-radius: 12px;
             margin: 15px 0;
             position: relative;
@@ -292,9 +380,8 @@
         }
 
         .prize-code {
-            font-family: "greycliff-cf", sans-serif;
-            font-weight: 900;
             font-size: 2em;
+            font-weight: 800;
             color: #F4DE00;
             letter-spacing: 0.1em;
             margin: 0;
@@ -304,7 +391,7 @@
         .expiry-text {
             color: #666;
             font-size: 0.9em;
-            margin: 12px 0;
+            margin: 15px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -348,8 +435,8 @@
 
         .instructions {
             color: #666;
-            font-size: 0.95em;
-            margin: 12px 0;
+            font-size: 1em;
+            margin: 15px 0;
             text-align: center;
         }
 
@@ -358,12 +445,11 @@
             color: #841468;
             border: none;
             border-radius: 30px;
-            padding: 12px 30px;
+            padding: 15px 40px;
             font-size: 1.1em;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            margin-top: 15px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(244, 222, 0, 0.2);
         }
@@ -411,7 +497,7 @@
                 <div class="wheel-border">
                     <canvas id="wheel" width="400" height="400"></canvas>
                 </div>
-                <button id="spinButton" class="spin-button">¡Gira y Gana!</button>
+                <button id="spinButton" class="spin-button">¡GIRAR!</button>
             </div>
 
             <p class="footer-text">¡Participá y ganá premios increíbles!</p>
@@ -587,7 +673,7 @@
             });
 
             const text = encodeURIComponent(
-                `🎉 ¡Felicitaciones! Ganaste en PINTEMAS\n\n` +
+                `💫 ¡Felicitaciones! Ganaste en PINTEMAS\n\n` +
                 `🎁 Tu premio es:\n` +
                 `${prize.name}\n` +
                 `${prize.description}\n\n` +
@@ -595,7 +681,7 @@
                 `${prize.code}\n\n` +
                 `⏰ Válido hasta:\n` +
                 `${expiryDate}\n\n` +
-                `📍 Presentá este código en cualquier sucursal de PINTEMAS para reclamar tu premio`
+                `📍 Present�� este código en cualquier sucursal de PINTEMAS para reclamar tu premio`
             );
             window.open(`https://wa.me/5493547637630?text=${text}`, '_blank');
         }
